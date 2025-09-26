@@ -1,0 +1,32 @@
+# Docker Compose Override for Development
+# This file extends docker-compose.yml for development purposes
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+
+version: '3.8'
+
+services:
+  backend:
+    # Override to build from source instead of using Docker Hub image
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    # Remove the image directive by not specifying it
+    volumes:
+      # Mount source code for development (optional - for live reload)
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+      
+  frontend:
+    # Override to build from source instead of using Docker Hub image
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:5000/api
+    # Remove the image directive by not specifying it
+    volumes:
+      # Mount source code for development (optional - for live reload)
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
