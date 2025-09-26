@@ -1,0 +1,19 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+healthcheckPath = "/api/health"
+healthcheckTimeout = 300
+restartPolicyType = "never"
+
+[[services]]
+name = "frontend"
+source = "./frontend"
+
+[[services]]
+name = "backend" 
+source = "./backend"
+
+[[services]]
+name = "mongodb"
+image = "mongo:latest"

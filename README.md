@@ -140,6 +140,45 @@ Before you begin, ensure you have the following installed:
    docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d
    ```
 
+## 🌐 Free Hosting Options
+
+Your application can be hosted on several free platforms:
+
+### 1. **Railway** (Recommended - Full Docker Support)
+- ✅ Native Docker Compose support
+- ✅ Free MongoDB included
+- ✅ $5/month free credits
+- ✅ Custom domains
+
+**Deploy in 3 steps:**
+```bash
+npm install -g @railway/cli
+railway login
+railway init
+```
+
+### 2. **Render** (Great Alternative)
+- ✅ Free PostgreSQL database
+- ✅ Docker container support
+- ✅ GitHub auto-deployments
+- ⚠️ Services sleep after 15 mins inactivity
+
+### 3. **Vercel (Frontend) + Railway (Backend)**
+- ✅ Perfect for React frontend
+- ✅ Global CDN
+- ✅ Automatic deployments from Git
+
+### 4. **Google Cloud Run**
+- ✅ 2 million requests/month free
+- ✅ Native Docker support
+- ✅ Pay-per-use scaling
+
+**Quick Railway Deployment:**
+1. Push code to GitHub
+2. Connect Railway to your repo
+3. Railway auto-detects `docker-compose.yml`
+4. Automatic deployment with database included
+
 ## 🐳 Docker Deployment
 
 ### Using Pre-built Images (Production)
