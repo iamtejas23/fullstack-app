@@ -37,12 +37,12 @@ services:
   # Backend API Service
   backend:
     # PRODUCTION: Use Docker Hub image
-    image: iamtejas23/fullstack-crud-backend:latest
+    # image: iamtejas23/fullstack-crud-backend:latest
     
     # DEVELOPMENT: Uncomment to build from source
-    # build:
-    #   context: ./backend
-    #   dockerfile: Dockerfile
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     
     container_name: fullstack-backend
     restart: unless-stopped
@@ -68,14 +68,14 @@ services:
   # Frontend React Application
   frontend:
     # PRODUCTION: Use Docker Hub image
-    image: iamtejas23/fullstack-crud-frontend:latest
+    # image: iamtejas23/fullstack-crud-frontend:latest
     
     # DEVELOPMENT: Uncomment to build from source
-    # build:
-    #   context: ./frontend
-    #   dockerfile: Dockerfile
-    #   args:
-    #     REACT_APP_API_URL: http://localhost:5000/api
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:5000/api
     
     container_name: fullstack-frontend
     restart: unless-stopped
@@ -87,7 +87,7 @@ services:
     networks:
       - fullstack-network
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:80/"]
       interval: 30s
       timeout: 10s
       retries: 3

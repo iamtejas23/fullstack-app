@@ -12,7 +12,28 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 app.use(morgan('combined'));
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+      'https://localhost:3000',
+      'https://127.0.0.1:3000'
+    ];
+    
+    if (process.env.FRONTEND_URL) {
+      allowedOrigins.push(process.env.FRONTEND_URL);
+    }
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      const msg = 'The CORS policy for this origin does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
@@ -202,6 +223,27 @@ app.delete('/api/users/:id', async (req, res) => {
       error: error.message
     });
   }
+});
+
+// API root route - provides available endpoints
+app.get('/api', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Fullstack CRUD API',
+    version: '1.0.0',
+    endpoints: {
+      health: 'GET /api/health',
+      users: {
+        getAll: 'GET /api/users',
+        getById: 'GET /api/users/:id',
+        create: 'POST /api/users',
+        update: 'PUT /api/users/:id',
+        delete: 'DELETE /api/users/:id'
+      }
+    },
+    documentation: 'See README.md for detailed API documentation',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Health check route
